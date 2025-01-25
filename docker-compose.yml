@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  java_app:
+    container_name: java_app
+    image: docker-java_app:1.0.0
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_URL=jdbc:mysql://java_db:3306/testdocker
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=root
+      - DATABASE_SCHEMA=testdocker
+    depends_on:
+      - java_db
+  java_db:
+    container_name: java_db
+    #Esto lo descarga directamente de docker hub ya que no ponemos un build
+    image: mysql:8.4
+    ports:
+      - 3308:3306
+    environment:
+      - MYSQL_DATABASE=testdocker
+      - MYSQL_ROOT_PASSWORD=root
+#    volumes:
+#      - C:\Proyectos\mysql\data:/var/lib/mysql
+#      - C:\Proyectos\mysql\conf.d:/etc/mysql/conf.d
